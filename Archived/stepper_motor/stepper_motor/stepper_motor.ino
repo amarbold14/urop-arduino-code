@@ -13,8 +13,8 @@
 
 const int PinDir = 9; //direction pin
 const int PinPul = 8; //pulse pin
-const int step_interval_ = 1000;   //delay in milliseconds between step
-const int step_per_rev_ = 400;   //check this on the stepper controller board
+const int step_interval_ = 500;   //delay in milliseconds between step
+const int step_per_rev_ = 400;   //check this on the stepper controller board, the whole rail is about 2725/400 turns
 
 boolean direction_now_ = HIGH;
 long step_count_ = 0;
