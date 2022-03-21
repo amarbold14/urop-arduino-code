@@ -19,8 +19,6 @@ const int step_per_rev_ = 400;   //check this on the stepper controller board, t
 boolean direction_now_ = HIGH;
 long step_count_ = 0;
 long desired_count_ = 0;
-
-
  
 void setup()
 {
@@ -38,7 +36,8 @@ void loop()
 }
 
 
-void check_status_and_distribute(){
+//Check whether position is reached - start
+void check_status_and_distribute(){ 
   if (desired_count_ != step_count_){
     spin_til_count(desired_count_);
   }
@@ -47,8 +46,9 @@ void check_status_and_distribute(){
     Serial.println(step_count_);
   }
 }
+//Check whether position is reached - end
 
-
+// Get serial command start
 long read_serial(long old_desired_value){
   long serial_input_desired_value = old_desired_value;
   while(Serial.available() > 0 ){
@@ -58,7 +58,6 @@ long read_serial(long old_desired_value){
   }
   return serial_input_desired_value;
 }
-
 
 String getValue(String data, char separator, int index) // Delimit string based on the deliminator
 {
@@ -74,8 +73,9 @@ String getValue(String data, char separator, int index) // Delimit string based 
     }
     return found > index ? data.substring(strIndex[0], strIndex[1]) : "";
 }
+// Get serial command end
 
-
+// Motor spin - Start
 void spin_til_count(long desired_count){ // Spin until globally reach a desired pulse count
   while (desired_count != step_count_){
     if (desired_count > step_count_){ //rotate CCW
@@ -107,3 +107,4 @@ void step_once(){
     step_count_--;
   }
 }
+// Motor spin - end
