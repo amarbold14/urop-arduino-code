@@ -14,12 +14,12 @@ int motor1pin1 = 2; //Init motor pins
 int motor1pin2 = 3;
 int motor1ena = 9;
 float current_mA = 0;
+const float torque_constant = 0.033; //1420S010 torque constant [Nm/A]
 
 void setup() {
   Serial.begin(9600);
 
   uint32_t currentFrequency;
-
   if (! ina219.begin()) {
     Serial.println("Failed to find INA219 chip");
     while (1) { delay(10); }
@@ -40,7 +40,8 @@ void loop() {
   digitalWrite(motor1pin2, LOW);
 
   current_mA = ina219.getCurrent_mA();
-  Serial.print("Current:       "); Serial.print(current_mA); Serial.println(" mA");
+  Serial.print("Current:       "); Serial.print(current_mA); Serial.print(" mA");
+  Serial.print("Torque:       "); Serial.print(current_mA*torque_constant); Serial.println(" mNm");
   delay(100);
 
   
