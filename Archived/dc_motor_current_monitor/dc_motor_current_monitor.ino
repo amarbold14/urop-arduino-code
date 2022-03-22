@@ -10,9 +10,9 @@
 
 Adafruit_INA219 ina219; //Init current sensor, A4 to SDA, A5 to SCL
 
-int motor1pin1 = 2; //Init motor pins
-int motor1pin2 = 3;
-int motor1ena = 9;
+int motor1pin1 = 6; //Init motor pins
+int motor1pin2 = 7;
+int motor1ena = 8;
 float current_mA = 0;
 
 void setup() {

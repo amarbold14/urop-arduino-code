@@ -10,9 +10,9 @@
 
 Adafruit_INA219 ina219; //Init current sensor, A4 to SDA, A5 to SCL
 
-int motor1pin1 = 2; //Init motor pins
-int motor1pin2 = 3;
-int motor1ena = 9;
+int motor1pin1 = 6; //Init motor pins
+int motor1pin2 = 7;
+int motor1ena = 8;
 float current_mA = 0;
 const float torque_constant = 0.033; //1420S010 torque constant [Nm/A]
 float torque_measured = 0;
@@ -23,10 +23,10 @@ void setup() {
 
   // Setup Current Sensor
   uint32_t currentFrequency;
-  if (! ina219.begin()) {
-    Serial.println("Failed to find INA219 chip");
-    while (1) { delay(10); }
-  }
+//  if (! ina219.begin()) {
+//    Serial.println("Failed to find INA219 chip");
+//    while (1) { delay(10); }
+//  }
 
   // Setup Motor
   pinMode(motor1pin1, OUTPUT);
@@ -43,7 +43,7 @@ void loop() {
   digitalWrite(motor1pin1, HIGH);
   digitalWrite(motor1pin2, LOW);
 
-  torque_measured = get_torque(current_mA);
+//  torque_measured = get_torque(current_mA);
   pwm = read_serial(pwm);
 
 //  Serial.print("PWM:"); Serial.print(pwm); Serial.print(" ;");
