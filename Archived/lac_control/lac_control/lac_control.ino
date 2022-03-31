@@ -7,7 +7,7 @@ int pos = 0;    // variable to store the servo position
 
 void setup() {
   Serial.begin(9600);
-  myservo.attach(13);  // attaches the servo on pin 9 to the servo object
+  myservo.attach(13);  // attaches the servo on pin 13 to the servo object
 }
 
 void loop() {
@@ -16,11 +16,11 @@ void loop() {
     myservo.write(pos);              // tell servo to go to position in variable 'pos'
     Serial.println(analogRead(A5)); // potentiometer reading
 
-    delay(30);                       // waits 15ms for the servo to reach the position
+    delay(30);                       // waits 30ms for the servo to reach the position
   }
   for (pos = 180; pos >= 0; pos -= 1) { // goes from 180 degrees to 0 degrees
     Serial.println(analogRead(A5));
     myservo.write(pos);              // tell servo to go to position in variable 'pos'
-    delay(30);                       // waits 15ms for the servo to reach the position
+    delay(30);                       // waits 30ms for the servo to reach the position
   }
 }
