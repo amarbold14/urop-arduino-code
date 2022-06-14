@@ -9,15 +9,11 @@
 
 // Strain Parameters
 #include "HX711.h"
-const byte hx711_data_pin = 14; //A5
-const byte hx711_clock_pin = 32;
-HX711 scale(hx711_data_pin, hx711_clock_pin);
-const int strainInterval=9;
-
-// Audio Parameters
-#include <driver/I2S.h>
-const i2s_port_t I2S_PORT = I2S_NUM_0;
-int32_t audioData;
+const byte hx711_data_pin = 13; 
+const byte hx711_clock_pin = 12;
+HX711 scale;
+float calibration_factor = -360000; // for force sensor
+float strain_HX711;
 
 
 /* BNO055 Macro */
@@ -73,17 +69,26 @@ void setup()
 {
   Serial.begin(115200);
   
-  
+  Serial.println("Initializing....");
+  Serial.println("Init HX711...");
+  /* HX711 */
+  scale.begin(hx711_data_pin, hx711_clock_pin);
+  scale.set_scale();
+  scale.tare(); //Reset the scale to 0
+  scale.set_scale(calibration_factor); //Adjust to this calibration factor
+  Serial.println("HX711 done.");
+
+  Serial.println("Init BNO055...");
   /* BNO055 */
-  Serial.println("Orientation Sensor Test"); Serial.println("");
   if(!bno.begin())
   {
     /* There was a problem detecting the BNO055 ... check your connections */
-    Serial.print("Ooops, no BNO055 detected ... Check your wiring or I2C ADDR!");
     while(1);
   }
- 
   bno.setExtCrystalUse(true);
+  Serial.println("BNO055 done.");
+
+  Serial.println("Done init");
 }
  
 void loop()
@@ -92,6 +97,7 @@ void loop()
     get_piezo();
     get_IMU();
     get_mic();
+    get_strain();
     form_packet();
     Serial.println(packet);
 }
@@ -139,14 +145,17 @@ void get_IMU(){
       quatZ = quat.z();
 }
 
+void get_strain(){
+  strain_HX711 = scale.get_units();
+}
 
 void get_mic(){
     mic = analogRead(mic_PIN);
 }
 
 void form_packet(){
-    sprintf(packet, "%d_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%d_", loopMillis, orientX, orientY, orientZ, angvX, angvY, angvZ, 
+    sprintf(packet, "%d_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%d_%.2f_", loopMillis, orientX, orientY, orientZ, angvX, angvY, angvZ, 
                                                                       accelX, accelY, accelZ, magX, magY, magZ, quatX, quatY, quatZ, quatW, 
-                                                                      piezoV_A, piezoV_B, mic);
+                                                                      piezoV_A, piezoV_B, mic, strain_HX711);
 
 }
