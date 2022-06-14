@@ -15,7 +15,7 @@ A0 pin. Check the serial monitor to view the voltage generated.
 Development environment specifics:
 Arduino 1.6.7
 ******************************************************************************/
-const int PIEZO_PIN = A15; // Piezo output
+const int PIEZO_PIN = A0; // Piezo output
 
 void setup() 
 {
@@ -26,6 +26,6 @@ void loop()
 {
   // Read Piezo ADC value in, and convert it to a voltage
   int piezoADC = analogRead(PIEZO_PIN);
-  float piezoV = piezoADC / 1023.0 * 5.0;
+  float piezoV = piezoADC*5/1023.0;
   Serial.println(piezoV); // Print the voltage.
 }

@@ -43,15 +43,16 @@ float quatZ;
 float quatW;
 float temp;
 
-unsigned long times;
-const int strainLength=(int)(BurstLength/strainInterval);
-int strain[strainLength];
-int packetCounter=1;
+
+/* Piezos */
+const int PIEZO_PIN_A = A0; // Piezo output
+const int PIEZO_PIN_B = A1;
+float piezoV_A, piezoV_B;
 
 //COLOR: little visual debugger
-const int red=4; //A5
-const int green=25; //A1
-const int blue=26; //A0
+//const int red=4; //A5, conflict with piezo, change em
+//const int green=25; //A1
+//const int blue=26; //A0
 
 //Packet
 char packet[128];
@@ -59,6 +60,8 @@ char packet[128];
 //Count timer
 long lastMillis = 0;
 int loopMillis = 0;
+
+
 
 
 void setup()
@@ -81,6 +84,7 @@ void setup()
 void loop()
 {
     compute_loop_time();
+    get_piezo();
     get_IMU();
     form_packet();
     Serial.println(packet);
@@ -90,6 +94,13 @@ void compute_loop_time(){
     long currentMillis = millis();
     loopMillis = currentMillis - lastMillis;
     lastMillis = currentMillis;
+}
+
+void get_piezo(){
+    int piezo_A = analogRead(PIEZO_PIN_A);
+    int piezo_B = analogRead(PIEZO_PIN_B);
+    piezoV_A = piezo_A*5/1023.0;
+    piezoV_B = piezo_B*5/1023.0;
 }
 
 void get_IMU(){
@@ -124,7 +135,8 @@ void get_IMU(){
 
 
 void form_packet(){
-    sprintf(packet, "%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%d", orientX, orientY, orientZ, angvX, angvY, angvZ, 
-                                                                      accelX, accelY, accelZ, magX, magY, magZ, quatX, quatY, quatZ, quatW, loopMillis);
+    sprintf(packet, "%d_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_", loopMillis, orientX, orientY, orientZ, angvX, angvY, angvZ, 
+                                                                      accelX, accelY, accelZ, magX, magY, magZ, quatX, quatY, quatZ, quatW, 
+                                                                      piezoV_A, piezoV_B);
 
 }

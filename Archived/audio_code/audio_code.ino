@@ -4,13 +4,13 @@
 **************************/
 
 // Connect the MEMS AUD output to the Arduino A0 pin
-int mic = A0;
+int mic = A2;
 
 // Variable to hold analog values from mic
 int micOut;
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
 
 }
 
