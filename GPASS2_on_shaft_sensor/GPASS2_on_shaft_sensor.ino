@@ -49,6 +49,11 @@ const int PIEZO_PIN_A = A0; // Piezo output
 const int PIEZO_PIN_B = A1;
 float piezoV_A, piezoV_B;
 
+
+/* mic */
+const int mic_PIN = A2;
+int mic;
+
 //COLOR: little visual debugger
 //const int red=4; //A5, conflict with piezo, change em
 //const int green=25; //A1
@@ -86,6 +91,7 @@ void loop()
     compute_loop_time();
     get_piezo();
     get_IMU();
+    get_mic();
     form_packet();
     Serial.println(packet);
 }
@@ -134,9 +140,13 @@ void get_IMU(){
 }
 
 
+void get_mic(){
+    mic = analogRead(mic_PIN);
+}
+
 void form_packet(){
-    sprintf(packet, "%d_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_", loopMillis, orientX, orientY, orientZ, angvX, angvY, angvZ, 
+    sprintf(packet, "%d_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%d_", loopMillis, orientX, orientY, orientZ, angvX, angvY, angvZ, 
                                                                       accelX, accelY, accelZ, magX, magY, magZ, quatX, quatY, quatZ, quatW, 
-                                                                      piezoV_A, piezoV_B);
+                                                                      piezoV_A, piezoV_B, mic);
 
 }
