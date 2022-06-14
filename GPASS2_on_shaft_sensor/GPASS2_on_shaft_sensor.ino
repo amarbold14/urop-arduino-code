@@ -154,7 +154,7 @@ void get_mic(){
 }
 
 void form_packet(){
-    sprintf(packet, "%d_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%d_%.2f_", loopMillis, orientX, orientY, orientZ, angvX, angvY, angvZ, 
+    sprintf(packet, "%d_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%.2f_%d_%.2f_#", loopMillis, orientX, orientY, orientZ, angvX, angvY, angvZ, 
                                                                       accelX, accelY, accelZ, magX, magY, magZ, quatX, quatY, quatZ, quatW, 
                                                                       piezoV_A, piezoV_B, mic, strain_HX711);
 
