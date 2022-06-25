@@ -15,7 +15,7 @@ An example serial response look like this:
 Sensors used:
 MCU - ESP32 Feather - https://www.adafruit.com/product/5400
 IMU - BNO055 - https://www.adafruit.com/product/4646
-MIC - MAX4466 - https://shorturl.at/fvV01
+MIC - MAX4466 - https://www.adafruit.com/product/1063
 Piezo A, B - MEAS - https://www.sparkfun.com/products/9198
 Strain Gauge DAQ - HX711 - https://www.sparkfun.com/products/13879
 Strain Gauge - Customized - https://ieeexplore.ieee.org/document/8794408
